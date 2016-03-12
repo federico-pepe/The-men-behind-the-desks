@@ -34,14 +34,16 @@ class RoviSearch {
       json = loadJSONObject("data/" + queryValue + ".json");
     } else {
       json = loadJSONObject(getQueryUrl());
-      queryValue = json.getJSONObject("album").getJSONObject("ids").getString("albumId");
-      saveJSONObject(json, "data/" + queryValue + ".json");
+      if(json != null) {
+        println(json);
+        queryValue = json.getJSONObject("album").getJSONObject("ids").getString("albumId");
+        saveJSONObject(json, "data/" + queryValue + ".json");
+        return true;
+      } else {
+        return false;
+      }
     }
-    if (json != null) {
-      return true;
-    } else {
-      return false;
-    }
+    return false;
   }
 
   String getQueryUrl() {
