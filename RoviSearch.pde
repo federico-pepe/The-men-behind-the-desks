@@ -1,6 +1,12 @@
 /*
  * Rovi Search Class
- */
+ * by Federico Pepe
+ *
+ * March 2016
+*/
+ 
+import java.net.URLEncoder;
+
 
 class RoviSearch {
   // --- VARIABLES
@@ -8,7 +14,6 @@ class RoviSearch {
   String queryParameter;
   String queryValue;
 
-  JSONObject json;
   // --- CONSTANTS
   String apiKey = APIKey;
   String baseURL = "http://api.rovicorp.com/data/v1.1/";
@@ -29,21 +34,21 @@ class RoviSearch {
   }
 
   boolean getData() {
-    File f = new File(dataPath("data/" + queryValue + ".json"));
+    //json = loadJSONObject(getQueryUrl());
+    //return true;
+    File f = new File(dataPath(apiEndpoint + queryValue + ".json"));
     if (f.exists()) {
-      json = loadJSONObject("data/" + queryValue + ".json");
+      json = loadJSONObject("data/" + apiEndpoint + "/" + queryValue + ".json");
+      return true;
     } else {
       json = loadJSONObject(getQueryUrl());
       if(json != null) {
-        println(json);
-        queryValue = json.getJSONObject("album").getJSONObject("ids").getString("albumId");
-        saveJSONObject(json, "data/" + queryValue + ".json");
+        saveJSONObject(json, "data/" + apiEndpoint + "/" + queryValue + ".json");
         return true;
       } else {
         return false;
       }
     }
-    return false;
   }
 
   String getQueryUrl() {
