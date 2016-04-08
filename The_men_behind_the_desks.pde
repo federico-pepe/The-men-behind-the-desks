@@ -8,10 +8,14 @@ Table index;
 
 IntDict engineers = new IntDict();
 
+int[] filterYears = {2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003, 2002, 2001, 2000};
 int filterYear = 2015;
+int counter  = 0;
 
 void setup() {
   size(500, 500);
+  
+  // Load some data
   index = loadTable("resources/Index.csv", "header, csv");
   getData();
   // DEBUG AND TEST
@@ -24,12 +28,28 @@ void draw() {
   
 }
 
+void mousePressed() {
+  // On click change filterYear
+  counter++;
+  if(counter >= filterYears.length) {
+    counter = 0;
+  }
+  filterYear = filterYears[counter];
+  
+  getData();
+  println(engineers);
+  
+}
+
 // Function: getData();
 // Description: 
 // Create a RoviSearch Object to obtain JSON data using Index.csv as reference
 //
 void getData() {
+  // Clear intDict() data
+  engineers.clear();
   
+  // Start loading data from the Index CSV file
   for (int i = 0; i < index.getRowCount(); i++) {
     /*
       // Load columns from CSV File
